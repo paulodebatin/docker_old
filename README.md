@@ -1,6 +1,6 @@
-# docker
+# Docker
 
-Respositório com exemplos de projetos (apps), dicas utilizando Docker.
+Respositório com exemplos de projetos (apps), dicas e exemplos de utilização de images utilizando Docker.
 
 1) Dicas 
 Para acessar as dicas clica aqui (https://github.com/paulodebatin/docker/blob/main/dicas.md)
