@@ -11,7 +11,12 @@ docker images | grep "nome_imagem"
 ### Construi uma imagem a partir do Dockerfile
 Criar uma pasta e entrar nela
 Criar o arquivo Dockerfile
-docker build -t <nome_imagem:versao> .
+docker build -t <paulodebatin/nome_imagem:versao> .
+
+Para subir para docker Hub:
+docker login
+	- informe user/pass
+docker push <nome_imagem:versao>
 
 ### remover
 docker image rmi <image_id>                         -- remover uma imagem
@@ -56,3 +61,7 @@ docker stop $(docker ps -a -q)                  -- parar todos
 docker container rm <id_container>
 docker rm <id_container>
 docker rm $(docker ps -a -q) -f                  -- remover todos
+	
+### ver os logs de aplicação rodando em um container
+docker logs <id do container> -f
+	
