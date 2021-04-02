@@ -1,0 +1,87 @@
+1) Instalando o kong e o Konga
+
+cd \kong\docker-kong
+docker network create kong-net
+docker-compose up -d db
+	-> esperar iniciar (ver com o comando: docker-compose ps)
+docker-compose up -d
+	-> esperar iniciar (ver com o comando: docker-compose ps)
+	os migrations e o prepare precisam sair mesmo (status = exit)
+	
+API Gateway do Kong: localhost:8000
+API do Kong: localhost:8001 
+Konga: 	localhost:1337
+	-> no primeiro acesso você precisa criar a conta de admin.
+	user: admin / senha: 12ft087w
+	-> depois de logado, você precisa conectar ao Kong.
+	Name: Kong / Kong Admin Url: http://kong:8001	
+	
+	
+2) Subindo os serviços
+cd \kong
+docker-compose up -d
+
+Para ver se os serviços subiram: 
+http://localhost:8081/	
+http://localhost:8082/
+http://localhost:8083/
+
+3) Criando os serviços e rotas:
+No Konga, criar um service:
+Name: servicea
+Protocol: http
+Host: servicea (este nome vem do docker-compose)
+Port: 8081
+Path: /
+-->Salvar
+
+- Agora, as rotas:
+Clique sobre o serviço cadatrado e escolha router. Depois add.
+Name: a
+Path: /a
+-->Salvar
+Para acessar agora o roteamento: http://localhost:8000/a
+Faço o mesmo passo para o serviço b e c.
+
+- Agora podemos criar um load balance:
+Em upstreams, clique em add:
+Name: servicos
+Após salvar.
+Depois clique sobre o item criado, e vá na opção targets e clique em add.
+Target: servicea:8081 e depois outro para serviceb:8082 e servicec:8083
+
+Em service vamos criar um service apontando para upstreams
+Name: servicos
+Protocol: http
+Host: servicos (o nome do upstrem criado)
+Path: /
+Port: 8081 (pode ser uma das portas de um dos targets criados no upstreams) 
+
+Depois crie uma rota para este serviço.
+Name: servicos
+Path: /servicos
+
+Pronto, para acessar
+http://localhost:8000/servicos -> vá dando refresh que você verá que vai caindo em serviços diferentes.
+
+Pare um serviço para testar:
+docker-compose stop servicea
+
+Veja em target upstreams o status como ficou.
+Como um cai este não será mais direcionadado quando chamo http://localhost:8000/servicos
+
+Para subir novamente:
+docker-compose start servicea
+
+
+-- Adicionar um JWT de segurança:
+Vá no services, escolha o serviço e adicione o plugin de autenticação JWT. No campo header names colocar Authorization e depois gravar. Com isso já deveria barrar http://localhost:8000/servicos (obs.: Não barrou)
+
+Agora preciso criar um usuário:
+Em consumer, criar um usuário. Informe o username, e depois na aba credenciais, crie um JWT. Informe uma key (paulo) e secret (debatin). Para gerar o hash para passar no postman, acesso: https://jwt.io/
+
+
+
+-- Controlar quantidade de acessos por minuto
+Adicionar no serviço o pluig rate limiting
+https://www.youtube.com/watch?v=ZBUxdqQF0vs

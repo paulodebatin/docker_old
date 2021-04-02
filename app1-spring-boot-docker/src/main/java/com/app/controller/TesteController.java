@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,12 +18,22 @@ public class TesteController {
 	@Autowired
 	private Service1 service;
 	
+	@Value("${nome.servico}")
+	private String nomeServico;
 	
-	@RequestMapping("/")
+	
+    @RequestMapping("/")
+    public String home() {
+        return "Serviço executado: " + nomeServico;
+    }
+
+	
+	
+	@RequestMapping("/pessoas")
 	// Quando colocar em produção, precisa colocar com um provider de cache (Redis por exemplo). Como não informamos nada, eles usa um HashMap
 	// Para limpar o cache, sobre o método que grava/altera/exclui devo utilizar a anotation @CacheEvict (value = "keyHome", allEntries = true)
 	//@Cacheable(value = "keyHome") 
-	public List<Pessoa> home() {
+	public List<Pessoa> pessoas() {
 		
 		//System.out.println("Não pegou do cache!");
 		

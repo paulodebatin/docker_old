@@ -1,0 +1,39 @@
+version: "3.7"
+
+networks:
+  kong-net:
+    name: kong-net
+    driver: bridge
+   
+
+services:
+
+  servicea:
+    image: paulodebatin/app1-spring-boot-docker:1.0
+    environment:
+      SERVER_PORT: 8081
+      NOME_SERVICO: "<h1>Servico A</h1>"
+    networks:
+      - kong-net
+    ports:
+      - 8081:8081
+
+  serviceb:
+    image: paulodebatin/app1-spring-boot-docker:1.0
+    environment:
+      SERVER_PORT: 8082
+      NOME_SERVICO: "<h1>Servico B</h1>"
+    networks:
+      - kong-net
+    ports:
+      - 8082:8082
+
+  servicec:
+    image: paulodebatin/app1-spring-boot-docker:1.0
+    environment:
+      SERVER_PORT: 8083
+      NOME_SERVICO: "<h1>Servico C</h1>"
+    networks:
+      - kong-net
+    ports:
+      - 8083:8083
