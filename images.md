@@ -226,3 +226,6 @@ volumes:
 
   --> Para acessar, htpp://localhost:9000
 
+14) Nginx
+docker pull nginx
+docker run --name web-nginx -p 8083:80 -v /home/paulo/projetos/nginx:/usr/share/nginx/html:ro -d nginx
