@@ -89,29 +89,19 @@ Para testar:
 
 
 9) MSSQL
+Tutorial: 
+https://docs.microsoft.com/pt-br/sql/linux/quickstart-install-connect-docker?view=sql-server-ver15&pivots=cs1-bash
+ 
+ 
 sudo docker pull mcr.microsoft.com/mssql/server:2019-latest
-sudo docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=9qW@1jyT#" -p 1433:1433 --name sql1 -h sql1 -d mcr.microsoft.com/mssql/server:2019-latest
-
-Para entrar dentro do container: sudo docker exec -it sql1 "bash" 
-Depois para entrar no mssql: /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "9qW@1jyT#"
-Dai em diante por usar qualquer comando sql, por exemplo: SELECT Name from sys.Databases <enter> go <enter>
-
-Sem ser docker:
-sqlcmd -S localhost -U SA -P '9qW@1jyT#' RESTORE FILELISTONLY from DISK = '/home/paulo/Downloads/BancodadosApi/DES_EDUSOFTAPI_FILES.BAK'
-
-sqlcmd -S localhost -U SA -Q "RESTORE DATABASE [DES_EDUSOFTAPI_FILES] FROM DISK = N'/home/paulo/Downloads/BancodadosApi/DES_EDUSOFTAPI_FILES.BAK' WITH FILE = 1, NOUNLOAD, REPLACE, RECOVERY, STATS = 5"
-
-sqlcmd -S localhost -U SA -Q "RESTORE DATABASE [DES_PADRAO_MSG] FROM DISK = N'/home/paulo/Downloads/BancodadosApi/DES_PADRAO_MSG.BAK' WITH FILE = 1, NOUNLOAD, REPLACE, RECOVERY, STATS = 5"
-
-	
-
-
-sqlcmd -S localhost -U SA -Q "RESTORE DATABASE [DES_PADRAO_MSG] FROM DISK = N'/home/paulo/Downloads/BancodadosApi/DES_PADRAO_MSG.BAK' WITH FILE = 1, NOUNLOAD, REPLACE, NORECOVERY, STATS = 5"
+sudo docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=PaCeDe76@"  -p 1433:1433 --name db_mssql -h db_mssql -d mcr.microsoft.com/mssql/server:2019-latest
 
 	
 10) Mysql
-docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=9qW@1jyT# -d mysql:5.6
-	
+docker run --name db-mysql -e MYSQL_ROOT_PASSWORD=123456 -p 3306:3306 -d mysql:5.7
+docker exec -it db-mysql  mysql -uroot -p123456	
+show databases;
+use <nome database>;
 
 
 11) Kafka + Zookeeper
