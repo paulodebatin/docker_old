@@ -98,11 +98,11 @@ sudo docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=PaCeDe76@"  -p 1433:1433 --na
 
 	
 10) Mysql
-docker run --name db-mysql -e MYSQL_ROOT_PASSWORD=123456 -p 3306:3306 -d mysql:5.7
+```docker run --name db-mysql -e MYSQL_ROOT_PASSWORD=123456 -p 3306:3306 -d mysql:5.7
 docker exec -it db-mysql  mysql -uroot -p123456	
 show databases;
 use <nome database>
-
+```
 
 11) Kafka + Zookeeper
 docker-compose.yml:
